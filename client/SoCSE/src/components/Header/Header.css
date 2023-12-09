@@ -1,0 +1,77 @@
+/* Header.css */
+
+/* Header */
+header {
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Logo */
+  .Logo {
+    color: #ff6b6b;
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-decoration: none;
+  }
+  
+  .Logo:hover {
+    color: #ff3333; /* Change color on hover */
+  }
+  
+  /* Navigation */
+  header nav a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  header nav button {
+    background-color: #ff6b6b;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  
+  header nav button:hover {
+    background-color: #ff3333;
+  }
+  
+  /* Header.css */
+
+/* Logo */
+.Logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .Logo img.logo-image {
+    height: 40px; /* Adjust the height as needed */
+    margin-left: 10px; /* Adjust the spacing as needed */
+  }
+  
+  .logoSO {
+    display: flex;
+    margin-top: 20px;
+    gap : 10px;
+  }
+
+  .header-bar {
+    padding: 20px;
+    
+  }
+
+  .Navigation {
+    font-size: large;
+    gap:  20px;
+    font-weight: bold;
+
+}

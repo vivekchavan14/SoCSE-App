@@ -1,0 +1,46 @@
+/* Newsletter.css */
+
+.newsletter-container {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: 250px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .newsletter-container:hover {
+    transform: translateY(-5px);
+  }
+  
+  .newsletter-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .newsletter-title {
+    margin-top: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+  }
+  
+  .newsletter-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    width: 100%;
+  }
+  
+  .newsletter-button:hover {
+    background-color: #0056b3;
+  }
+  
