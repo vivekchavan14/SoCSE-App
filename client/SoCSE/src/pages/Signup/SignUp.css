@@ -1,0 +1,63 @@
+/* SignUp.css */
+
+/* Style for the container */
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  /* Style for the form */
+  .signup-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  /* Style for the input fields */
+  .signup-form input[type='text'],
+  .signup-form input[type='password'],
+  .signup-form button[type='submit'] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  /* Style for the submit button */
+  .signup-form button[type='submit'] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .signup-form button[type='submit']:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Style for the 'Already have an account?' text */
+  .signup-form div > p {
+    margin-top: 10px;
+  }
+  
+  /* Style for the link */
+  .signup-form div > a {
+    color: #007bff;
+    text-decoration: none;
+    margin-left: 5px;
+  }
+  
