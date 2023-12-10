@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import authRouter from './routes/authRoutes.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import postRoutes from './routes/postRoutes.js'; 
 
 const app = express();
 const port = 8000;
@@ -35,7 +36,9 @@ app.use(cors({
 app.use(cookieParser());
 app.use(express.json());
 app.use('/api/auth', authRouter);
+app.use('/api/posts', postRoutes); 
 
+// Then, include error handling middleware
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "Internal Server Error";

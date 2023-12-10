@@ -6,6 +6,7 @@ import Profile from "./pages/Profile/Profile.jsx";
 import Home from "./pages/Home/Home.jsx";
 import SignIn from "./pages/Signin/SignIn.jsx";
 import SignUp from "./pages/Signup/SignUp.jsx";
+import CreatePost from "./pages/CreatePost/CreatePost.jsx";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/create" element={<CreatePost />} />
           </Routes>
         </main>
       </UserContextProvider>
