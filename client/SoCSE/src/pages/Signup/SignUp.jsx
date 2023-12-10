@@ -1,46 +1,59 @@
 // SignUp.jsx
-import { Link } from 'react';
+import { Link,Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import '../Signup/SignUp.css';
 
 function SignUp() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [redirect, setRedirect] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
+ function register(event){
+   event.preventDefault();
+   fetch('http://localhost:8000/api/auth/signup',{
+     method: 'POST',
+     body: JSON.stringify({ email , password}),
+     headers: {'Content-Type': 'application/json' },
+   }).then(response => {
+    if (response.ok) {
+      alert('User registered successfully');
+      setRedirect(true);
+    } else {
+      alert('Registration failed');
+      
+    }
+  })
+  .catch(error => {
+    console.error('Error registering user:', error);
+  });
+ }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Logic to handle form submission
-  };
+ if (redirect) {
+  return <Navigate to={'/login'} />; 
+}
+
 
   return (
     <div className='signup-form'>
       <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={register}>
         <input
           type='text'
           placeholder='Email'
           id='email'
-          value={formData.email}
-          onChange={handleChange}
+          onChange={event => setEmail(event.target.value)}
         />
         <input
           type='password'
           placeholder='Password'
           id='password'
-          value={formData.password}
-          onChange={handleChange}
+          onChange={event => setPassword(event.target.value)}
         />
         <button type='submit'>Sign Up</button>
       </form>
       <div>
         <p>Already have an account?</p>
-       {/* <Link to='/signin'>Sign In</Link> */}
+        <Link to='/signin'>Sign In</Link> 
       </div>
     </div>
   );

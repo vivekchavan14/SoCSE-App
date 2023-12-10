@@ -1,35 +1,56 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import '../Signin/SignIn.css'
+import {Navigate, Link} from 'react-router-dom'
+import { UserContext } from '../../components/ContextAPI/userContext';
 
 function SignIn() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [redirect, setRedirect] = useState(false); 
+  const {setUserInfo} = useContext(UserContext);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
-    });
-  };
+  function handleLogin(event) {
+    event.preventDefault();
+    fetch('http://localhost:8000/api/auth/signin', {
+      method: 'POST',
+      body: JSON.stringify({email, password }),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include'
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(userInfo => { 
+            setUserInfo(userInfo)
+            setRedirect(true);
+          })
+         
+        } else {
+          alert('Login failed');
+        }
+      })
+      .catch(error => {
+        console.error('Error logging in:', error);
+        
+      });
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your logic to handle form submission here, for example:
-    console.log('Form submitted:', formData);
-    // You can perform API calls or any other action based on the form data.
-  };
+  if (redirect) {
+    return <Navigate to={'/'} />; // Redirect to the home page or any desired route
+  }
+
 
   return (
     <div>
         <div className='signin-form'>
       <h1>Sign In</h1>
-      <form onSubmit={handleSubmit}>
-        <input type='text' placeholder='Email' id='email' value={formData.email} onChange={handleChange} />
-        <input type='password' placeholder='Password' id='password' value={formData.password} onChange={handleChange} />
+      <form onSubmit={handleLogin}>
+        <input type='text' placeholder='Email' id='email'   onChange={event => setEmail(event.target.value)}/>
+        <input type='password' placeholder='Password' id='password' onChange={event => setPassword(event.target.value)} />
         <button type='submit'>Sign In</button>
       </form>
       <div>
         <p>Dont have an account?</p>
-        {/*<Link to='/signup'>Sign Up</Link>*/}
+        <Link to='/signup'>Sign Up</Link>
       </div>
       </div>
     </div>

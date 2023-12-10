@@ -8,7 +8,7 @@ function Header() {
   const { userInfo, setUserInfo } = useContext(UserContext); 
 
   useEffect(() => {
-    fetch('http://localhost:8000/profile', {
+    fetch('http://localhost:8000/api/auth/profile', {
       method: 'GET',
       credentials: 'include',
     })
@@ -28,7 +28,7 @@ function Header() {
   }, [setUserInfo]);
 
   function logout() {
-    fetch('http://localhost:8000/logout', {
+    fetch('http://localhost:8000/api/auth/logout', {
       method: 'POST',
       credentials: 'include',
     })
@@ -62,8 +62,8 @@ function Header() {
           <nav>
             {error || !userInfo ? (
               <>
-                <Link to='/login'>Login</Link>
-                <Link to='/register'>Register</Link>
+                <Link to='/signin'>Login</Link>
+                <Link to='/signup'>Register</Link>
               </>
             ) : (
               <>
