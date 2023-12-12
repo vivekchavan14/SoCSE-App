@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Navigate } from 'react-router-dom';
-import './CreatePost.css'; // Update the path to the CSS file
+import './CreatePost.css'; 
 
 function CreatePost() {
   const [title, setTitle] = useState('');
@@ -50,7 +50,7 @@ function CreatePost() {
       formData.append('file', files[0]); // Assuming only one file is selected
     }
 
-    fetch('http://localhost:8000/api/posts/create', {
+    fetch('http://localhost:5000/post', {
       method: 'POST',
       body: formData,
     })

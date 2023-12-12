@@ -11,7 +11,7 @@ function SignIn() {
 
   function handleLogin(event) {
     event.preventDefault();
-    fetch('http://localhost:8000/api/auth/signin', {
+    fetch('http://localhost:5000/login', {
       method: 'POST',
       body: JSON.stringify({email, password }),
       headers: { 'Content-Type': 'application/json' },
