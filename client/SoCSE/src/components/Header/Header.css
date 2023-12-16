@@ -1,5 +1,7 @@
+/* Header.css */
+
 /* Header */
-header {
+.header {
   background-color: #f8f8f8;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px 20px;
@@ -34,26 +36,17 @@ header {
   gap: 10px;
 }
 
-/* Header Bar Padding */
-.header-bar {
-  padding: 20px;
-}
-
-
 /* Navigation */
 .Navigation {
   display: flex;
-  align-items: center;
   gap: 20px;
   font-size: large;
   font-weight: bold;
 }
 
 /* Each Navigation Item */
-
-
-.Navigation a,
-.Navigation button {
+.Navigation button,
+.Navigation a {
   opacity: 0;
   position: relative;
   animation: fadeIn 0.5s forwards;
@@ -64,18 +57,22 @@ header {
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
-}
-
-.Navigation button {
-  background-color: #ff6b6b;
-  color: #fff;
   border: none;
-  font-weight: bold;
-  display: inline-block; /* Change to display inline-block */
+  background-color: transparent;
+  display: inline-block;
 }
 
-.Navigation button:hover {
-  background-color: #ff3333;
+/* Navigation Button Styles */
+.Navigation button,
+.Navigation a {
+  background: linear-gradient(to right, white, #f0f0f0); /* Gradient color scheme */
+  border: none;
+}
+
+/* Styling for hover effect on buttons */
+.Navigation button:hover,
+.Navigation a:hover {
+  filter: brightness(1.1); /* Slightly increase brightness on hover */
 }
 
 /* Animation keyframes */
@@ -88,4 +85,10 @@ header {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Additional Styles */
+.abc {
+  display: flex;
+  gap: 20px;
 }

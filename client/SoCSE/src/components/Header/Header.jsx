@@ -85,24 +85,24 @@ function Header() {
           </Link>
         </div>
         <motion.div className='Navigation' initial='initial' animate='animate' variants={headerVariants}>
-        <nav>
+        <nav className='abc'>
             {error || !userInfo ? (
               <>
-                <motion.div variants={childVariant}>
-                  <Link to='/signin'>Login</Link>
-                </motion.div>
-                <motion.div variants={childVariant}>
-                  <Link to='/signup'>Register</Link>
-                </motion.div>
+                <motion.button variants={childVariant}>
+                  <Link to='/signin'>SignIn</Link>
+                </motion.button>
+                <motion.button variants={childVariant}>
+                  <Link to='/signup'>SignUp</Link>
+                </motion.button>
               </>
             ) : (
               <>
-                <motion.div variants={childVariant}>
+                <motion.button variants={childVariant}>
                   <Link to='/create'>Add Post</Link>
-                </motion.div>
-                <motion.div variants={childVariant}>
+                </motion.button>
+                <motion.button variants={childVariant}>
                   <button onClick={logout}>Logout</button>
-                </motion.div>
+                </motion.button>
               </>
             )}
           </nav>
