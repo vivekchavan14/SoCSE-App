@@ -119,7 +119,7 @@ app.post('/post', upload.single('file'), async (req, res) => {
                 summary,
                 content,
                 cover: newPath,
-                author: decoded.userId // Changed to 'userId' from 'id'
+                author: decoded.userId 
             });
 
             res.json(postDoc);

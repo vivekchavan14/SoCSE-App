@@ -7,6 +7,7 @@ import Home from "./pages/Home/Home.jsx";
 import SignIn from "./pages/Signin/SignIn.jsx";
 import SignUp from "./pages/Signup/SignUp.jsx";
 import CreatePost from "./pages/CreatePost/CreatePost.jsx";
+import Newsletter from "./components/Newsletter/Newsletter.jsx";
 
 function App() {
   return (
