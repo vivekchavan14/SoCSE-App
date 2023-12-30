@@ -38,20 +38,21 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 
 app.post('/register', async (req, res) => {
-    const { email , password } = req.body;
+    const { email, password } = req.body;
     try {
-        const existingUser = await userModel.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: 'Username already exists' });
-        }
-        const newUser = new userModel({ email , password });
-        await newUser.save();
-        res.status(201).json({ message: 'User registered successfully' });
+      const existingUser = await userModel.findOne({ email });
+      if (existingUser) {
+        return res.status(400).json({ message: 'Username already exists' });
+      }
+      const newUser = new userModel({ email, password });
+      await newUser.save();
+      res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Error registering user' });
+      console.error('Error registering user:', error); // Log the error
+      res.status(500).json({ message: 'Error registering user' });
     }
-});
-
+  });
+  
 app.post('/login', async (req, res) => {
     const { email , password } = req.body;
     try {
