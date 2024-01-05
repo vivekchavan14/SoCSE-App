@@ -1,3 +1,5 @@
+/* NewsletterList.css */
+
 .News {
   display: flex;
   flex-direction: column;
@@ -23,22 +25,35 @@ input[type='text'] {
 
 .categories {
   display: flex;
-  justify-content: center;
+  overflow-x: auto; /* Enable horizontal scrollbar */
   gap: 10px;
   margin-bottom: 1rem;
 }
 
+.categories .category-buttons {
+  display: flex;
+  gap: 5px;
+}
+
 .categories button {
-  padding: 0.5rem 1rem;
+  padding: 8px 16px; /* Fixed padding for consistent button size */
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   background-color: #f0f0f0;
   font-size: 14px;
+  text-transform: uppercase; /* Convert text to uppercase */
 }
 
 .categories button.active {
   background-color: #00bcd4;
   color: white;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  justify-items: center;
 }

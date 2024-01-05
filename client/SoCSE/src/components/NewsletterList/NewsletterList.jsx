@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Newsletter from '../Newsletter/Newsletter.jsx';
-import '../NewsletterList/NewsletterList.css'; // Ensure proper CSS styles are imported
+import './NewsletterList.css'; // Ensure proper CSS styles are imported
 
 const NewsletterList = () => {
   const [articles, setArticles] = useState([]);
@@ -52,7 +52,7 @@ const NewsletterList = () => {
         </div>
         <div className='categories'>
           <div className='category-buttons'>
-            {['All', 'literature', 'sport',  'co curricular', 'events','achievements', 'technical'].map((category, index) => (
+            {['All', 'literature', 'sport',  'co-curricular', 'events','achievements', 'technical'].map((category, index) => (
               <button
                 key={index}
                 className={selectedCategory === category ? 'active' : ''}
