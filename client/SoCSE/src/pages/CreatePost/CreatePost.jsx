@@ -31,7 +31,7 @@ function CreatePost() {
   const getToken = () => {
     return localStorage.getItem('access_token'); // Retrieve the token from localStorage
   };
-
+  
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };

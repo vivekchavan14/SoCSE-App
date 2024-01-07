@@ -32,11 +32,19 @@ export const addPost = (req, res) => {
       const { title, summary, content } = req.body;
       const { filename: cover } = req.file;
 
-      const token = req.cookies.access_token; // Assuming the token is sent via cookies
-      const secret = "fallback_secret_if_not_set_in_env";// Replace with your actual secret
+      const token = req.headers.authorization?.split(' ')[1]; // Assuming the token is sent as "Bearer your_token"
+      const secret = "fallback_secret_if_not_set_in_env"; // Replace with your actual secret
+
+      console.log('Received token:', token); 
+      
+      if (!token) {
+        return res.status(401).json({ message: 'Unauthorized - Token not provided' });
+      }
 
       jwt.verify(token, secret, {}, async (err, decoded) => {
-        if (err) throw err;
+        if (err) {
+          return res.status(401).json({ message: 'Unauthorized - Invalid token' });
+        }
 
         const postDoc = await PostModel.create({
           title,

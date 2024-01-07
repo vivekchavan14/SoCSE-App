@@ -10,7 +10,7 @@ const NewsletterList = () => {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/posts/getPosts')
+    fetch('http://localhost:8000/api/posts/post')
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok.');
