@@ -1,3 +1,5 @@
+// NewsletterList.jsx
+
 import { useState, useEffect } from 'react';
 import Newsletter from '../Newsletter/Newsletter.jsx';
 import './NewsletterList.css'; // Ensure proper CSS styles are imported
@@ -51,16 +53,18 @@ const NewsletterList = () => {
           />
         </div>
         <div className='categories'>
-          <div className='category-buttons'>
-            {['All', 'literature', 'sport',  'co-curricular', 'events','achievements', 'technical'].map((category, index) => (
-              <button
-                key={index}
-                className={selectedCategory === category ? 'active' : ''}
-                onClick={() => handleCategoryClick(category)}
-              >
-                {category}
-              </button>
-            ))}
+          <div className='category-buttons-scroll'>
+            <div className='category-buttons'>
+              {['All', 'literature', 'sport', 'co-curricular', 'events', 'achievements', 'technical', 'other'].map((category, index) => (
+                <button
+                  key={index}
+                  className={selectedCategory === category ? 'active' : ''}
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
         <div className='cards'>

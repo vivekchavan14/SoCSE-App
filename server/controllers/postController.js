@@ -32,8 +32,8 @@ export const addPost = (req, res) => {
       const { title, summary, content } = req.body;
       const { filename: cover } = req.file;
 
-      const token = req.cookies.token; // Assuming the token is sent via cookies
-      const secret = process.env.JWT_SECRET; // Replace with your actual secret
+      const token = req.cookies.access_token; // Assuming the token is sent via cookies
+      const secret = "fallback_secret_if_not_set_in_env";// Replace with your actual secret
 
       jwt.verify(token, secret, {}, async (err, decoded) => {
         if (err) throw err;

@@ -25,16 +25,26 @@ input[type='text'] {
 
 .categories {
   display: flex;
-  overflow-x: auto; /* Enable horizontal scrollbar */
   gap: 10px;
   margin-bottom: 1rem;
+  padding: 0 1rem;
+  /* Change scrollbar color as needed */
 }
 
-.categories .category-buttons {
+.category-buttons {
   display: flex;
   gap: 5px;
+  white-space: nowrap; /* Prevent button text from wrapping */
 }
 
+.category-buttons-scroll{
+  overflow-x: auto; /* Enable horizontal scrollbar */
+  white-space: nowrap; /* Prevent button text from wrapping */
+  width: 100%; /* Occupy full width */
+  /* Added styles for scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent; 
+}
 .categories button {
   padding: 8px 16px; /* Fixed padding for consistent button size */
   border: none;
@@ -43,7 +53,9 @@ input[type='text'] {
   transition: background-color 0.3s ease;
   background-color: #f0f0f0;
   font-size: 14px;
-  text-transform: uppercase; /* Convert text to uppercase */
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center; /* Convert text to uppercase */
 }
 
 .categories button.active {
@@ -56,4 +68,12 @@ input[type='text'] {
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
   justify-items: center;
+}
+
+/* Additional styles for small screens */
+@media screen and (max-width: 768px) {
+  .categories {
+    overflow-x: scroll; /* Enable scrollbar for small screens */
+    scrollbar-width: auto; /* Revert scrollbar width to default for small screens */
+  }
 }
