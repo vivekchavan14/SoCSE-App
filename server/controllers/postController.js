@@ -1,15 +1,15 @@
-import PostModel from "../models/postModel";
+import PostModel from "../models/postModel.js";
 import multer from 'multer';
-import path from 'path'; // Import 'path' for better file path handling
+import path from 'path';
 import jwt from 'jsonwebtoken';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Specify the destination for file uploads
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname); // Get file extension using 'path'
-    const fileName = `${file.fieldname}-${Date.now()}${ext}`; // Unique filename with timestamp
+    const ext = path.extname(file.originalname);
+    const fileName = `${file.fieldname}-${Date.now()}${ext}`;
     cb(null, fileName);
   }
 });
@@ -20,10 +20,8 @@ export const addPost = (req, res) => {
   upload(req, res, async (err) => {
     try {
       if (err instanceof multer.MulterError) {
-        // A Multer error occurred when uploading
         return res.status(400).json({ error: 'Multer Error' });
       } else if (err) {
-        // An unknown error occurred when uploading
         return res.status(500).json({ error: err.message });
       }
 
@@ -32,7 +30,7 @@ export const addPost = (req, res) => {
       }
 
       const { title, summary, content } = req.body;
-      const { filename: cover } = req.file; // Get filename directly from req.file object
+      const { filename: cover } = req.file;
 
       const token = req.cookies.token; // Assuming the token is sent via cookies
       const secret = process.env.JWT_SECRET; // Replace with your actual secret
@@ -65,4 +63,3 @@ export const getPosts = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-

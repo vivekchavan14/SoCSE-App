@@ -6,13 +6,13 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false); // Initialize redirect as a boolean
-
+  const [username, setUsername] = useState('');
   const register = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/register', {
+      const response = await fetch('http://localhost:8000/api/auth/signup', {
         method: 'POST',
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email,username, password }),
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -41,6 +41,13 @@ function SignUp() {
           id='email'
           value={email}
           onChange={(event) => setEmail(event.target.value)}
+        />
+                <input
+          type='text'
+          placeholder='Username'
+          id='username'
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
         />
         <input
           type='password'

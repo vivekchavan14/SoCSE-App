@@ -11,7 +11,7 @@ function Header() {
   const { userInfo, setUserInfo } = useContext(UserContext);
 
   useEffect(() => {
-    fetch('http://localhost:5000/profile', {
+    fetch('http://localhost:8000/api/auth/profile', {
       method: 'GET',
       credentials: 'include',
     })
@@ -31,7 +31,7 @@ function Header() {
   }, [setUserInfo]);
 
   function logout() {
-    fetch('http://localhost:5000/logout', {
+    fetch('http://localhost:8000/api/auth/logout', {
       method: 'POST',
       credentials: 'include',
     })
