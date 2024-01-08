@@ -1,0 +1,48 @@
+/* Footer.css */
+
+/* Footer */
+.footer {
+    background-color: #f8f8f8;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* Footer Content */
+  .footer-content {
+    display: flex;
+    gap: 40px;
+    flex: 1;
+  }
+  
+  /* Footer Section */
+  .footer-section {
+    flex: 1;
+  }
+  
+  /* About and Contact Sections */
+  .about h2,
+  .contact h2 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Contact Info */
+  .contact p {
+    margin: 0;
+    line-height: 1.5;
+  }
+  
+  /* Footer Bottom */
+  .footer-bottom {
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  

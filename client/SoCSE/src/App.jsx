@@ -9,6 +9,7 @@ import SignIn from './pages/Signin/SignIn.jsx';
 import SignUp from './pages/Signup/SignUp.jsx';
 import CreatePost from './pages/CreatePost/CreatePost.jsx';
 import Article from './pages/Article/Article.jsx'; // Import your Article component
+import Footer from './components/Footer/Footer.jsx';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
               <Route path="/article/:id" element={<Article />} />
             </Routes>
           </main>
+       
         </UserContextProvider>
       </BrowserRouter>
     </div>
