@@ -18,7 +18,7 @@ const NewsletterList = () => {
       })
       .then(articlesData => {
         setArticles(articlesData);
-        setFilteredArticles(articlesData); // Initially set filtered articles to all articles
+        setFilteredArticles(articlesData);
       })
       .catch(error => {
         console.error('Error fetching articles:', error);
@@ -40,6 +40,35 @@ const NewsletterList = () => {
   const handleCategoryClick = category => {
     setSelectedCategory(category === selectedCategory ? '' : category);
   };
+
+  const handleDelete = async id => {
+    try {
+      const accessToken = localStorage.getItem('access_token');
+      if (!accessToken) {
+        throw new Error('Access token not found');
+      }
+  
+      const response = await fetch(`http://localhost:8000/api/posts/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete post');
+      }
+  
+      // Update state after successful deletion
+      setArticles(prevArticles => prevArticles.filter(article => article._id !== id));
+      setFilteredArticles(prevFilteredArticles => prevFilteredArticles.filter(article => article._id !== id));
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Error deleting post');
+    }
+  };
+  
 
   return (
     <div className='News'>
@@ -70,10 +99,11 @@ const NewsletterList = () => {
         <div className='cards'>
           {filteredArticles.map(article => (
             <Newsletter
-              key={article._id} // Use _id instead of id
-              _id={article._id} // Pass _id as the article ID
+              key={article._id}
+              _id={article._id}
               title={article.title}
-              image={article.cover} // Assuming cover is the image field
+              image={article.cover}
+              onDelete={() => handleDelete(article._id)}
             />
           ))}
         </div>

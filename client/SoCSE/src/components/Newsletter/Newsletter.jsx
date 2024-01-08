@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './Newsletter.css';
 
-const Newsletter = ({ _id, title, image, onDelete, onUpdate }) => {
+const Newsletter = ({ _id, title, image, onDelete }) => {
   const accessToken = localStorage.getItem('access_token');
 
   const handleDelete = async () => {
@@ -12,19 +12,21 @@ const Newsletter = ({ _id, title, image, onDelete, onUpdate }) => {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
         },
       });
+
       if (!response.ok) {
         throw new Error('Failed to delete post');
       }
-      onDelete(_id);
+
+      onDelete(_id); // Remove the deleted post from the UI or perform necessary actions
     } catch (error) {
       console.error('Error deleting post:', error);
       // Handle error state if needed
       alert('Error deleting post');
     }
   };
-
 
   return (
     <div className="newsletter-container">
@@ -35,13 +37,12 @@ const Newsletter = ({ _id, title, image, onDelete, onUpdate }) => {
           <Link to={`/article/${_id}`} className="newsletter-button">
             View article
           </Link>
-          {accessToken && (
-            <>
-              <button className="newsletter-button" onClick={handleDelete}>
-                Delete post
-              </button>
-            </>
-          )}
+          <button
+            className={`newsletter-button ${!accessToken ? 'hidden' : ''}`}
+            onClick={() => handleDelete(_id)} // Pass _id to handleDelete
+          >
+            Delete post
+          </button>
         </div>
       </div>
     </div>
@@ -53,7 +54,6 @@ Newsletter.propTypes = {
   title: PropTypes.string.isRequired,
   image: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
 };
 
 export default Newsletter;
