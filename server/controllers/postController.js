@@ -16,9 +16,9 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage }).single('file');
 
-export const addPost = (req, res) => {
-  upload(req, res, async (err) => {
-    try {
+export const addPost = async (req, res) => {
+  try {
+    upload(req, res, async (err) => {
       if (err instanceof multer.MulterError) {
         return res.status(400).json({ error: 'Multer Error' });
       } else if (err) {
@@ -33,10 +33,8 @@ export const addPost = (req, res) => {
       const { filename: cover } = req.file;
 
       const token = req.headers.authorization?.split(' ')[1]; // Assuming the token is sent as "Bearer your_token"
-      const secret = "fallback_secret_if_not_set_in_env"; // Replace with your actual secret
+      const secret = process.env.JWT_SECRET || "fallback_secret_if_not_set_in_env"; // Replace with your actual secret or use process.env
 
-      console.log('Received token:', token); 
-      
       if (!token) {
         return res.status(401).json({ message: 'Unauthorized - Token not provided' });
       }
@@ -46,21 +44,26 @@ export const addPost = (req, res) => {
           return res.status(401).json({ message: 'Unauthorized - Invalid token' });
         }
 
-        const postDoc = await PostModel.create({
-          title,
-          summary,
-          content,
-          cover,
-          author: decoded.id
-        });
+        try {
+          const postDoc = await PostModel.create({
+            title,
+            summary,
+            content,
+            cover,
+            author: decoded.id
+          });
 
-        res.json(postDoc);
+          res.json(postDoc);
+        } catch (error) {
+          console.error('Error creating post:', error);
+          res.status(500).json({ message: 'Error creating post' });
+        }
       });
-    } catch (error) {
-      console.error('Error creating post:', error);
-      res.status(500).json({ message: 'Error creating post' });
-    }
-  });
+    });
+  } catch (error) {
+    console.error('Error handling request:', error);
+    res.status(500).json({ message: 'Error handling request' });
+  }
 };
 
 export const getPosts = async (req, res) => {
@@ -69,5 +72,60 @@ export const getPosts = async (req, res) => {
     res.json(posts);
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+
+export const getPostById = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const post = await PostModel.findById(postId).populate('author', ['username']);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.error('Error fetching post by ID:', error);
+    res.status(500).json({ message: 'Error fetching post by ID' });
+  }
+};
+
+
+export const updatePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { title, summary, content } = req.body;
+    const updatedPost = await PostModel.findByIdAndUpdate(
+      postId,
+      { title, summary, content },
+      { new: true }
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.json(updatedPost);
+  } catch (error) {
+    console.error('Error updating post:', error);
+    res.status(500).json({ message: 'Error updating post' });
+  }
+};
+
+export const deletePost = async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const deletedPost = await PostModel.findByIdAndDelete(postId);
+
+    if (!deletedPost) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    res.json({ message: 'Post deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting post:', error);
+    res.status(500).json({ message: 'Error deleting post' });
   }
 };

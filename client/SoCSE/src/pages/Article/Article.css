@@ -1,0 +1,30 @@
+/* Customize the styles as needed */
+
+.article-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .article-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .article-cover {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .article-summary {
+    font-style: italic;
+    margin-bottom: 15px;
+  }
+  
+  .article-content {
+    line-height: 1.6;
+  }
+  
+  /* Add more styles for other article details if needed */
+  
