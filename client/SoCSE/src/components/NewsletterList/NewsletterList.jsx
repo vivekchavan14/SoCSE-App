@@ -5,7 +5,28 @@ import Newsletter from '../Newsletter/Newsletter.jsx';
 import './NewsletterList.css'; // Ensure proper CSS styles are imported
 
 const NewsletterList = () => {
-  const [articles, setArticles] = useState([]);
+  const [articles, setArticles] = useState([  {
+    id: 1,
+    title: 'Exciting Literature News',
+    image: 'https://via.placeholder.com/150x150',
+    category: 'literature',
+  },
+  {
+    id: 2,
+    title: 'Sports Update',
+    image: 'https://via.placeholder.com/150x150',
+    category: 'sport',
+  },{
+    id: 3,
+    title: 'Achievements Update',
+    image: 'https://via.placeholder.com/150x150',
+    category: 'achievements',
+  },{
+    id: 4,
+    title: 'Events Update',
+    image: 'https://via.placeholder.com/150x150',
+    category: 'events',
+  }]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
 
