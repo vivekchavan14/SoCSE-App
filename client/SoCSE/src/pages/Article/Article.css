@@ -1,4 +1,4 @@
-/* Customize the styles as needed */
+/* Article.css */
 
 .article-container {
     max-width: 800px;
@@ -7,24 +7,27 @@
   }
   
   .article-title {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    text-align: center;
   }
   
   .article-cover {
+    display: block;
     width: 100%;
-    height: auto;
     margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .article-summary {
-    font-style: italic;
-    margin-bottom: 15px;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
   }
   
   .article-content {
     line-height: 1.6;
   }
   
-  /* Add more styles for other article details if needed */
+  /* Add any other styles as needed */
   

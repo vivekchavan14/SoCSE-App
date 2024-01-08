@@ -1,34 +1,12 @@
-// NewsletterList.jsx
-
 import { useState, useEffect } from 'react';
 import Newsletter from '../Newsletter/Newsletter.jsx';
-import './NewsletterList.css'; // Ensure proper CSS styles are imported
+import './NewsletterList.css';
 
 const NewsletterList = () => {
-  const [articles, setArticles] = useState([  {
-    id: 1,
-    title: 'Exciting Literature News',
-    image: 'https://via.placeholder.com/150x150',
-    category: 'literature',
-  },
-  {
-    id: 2,
-    title: 'Sports Update',
-    image: 'https://via.placeholder.com/150x150',
-    category: 'sport',
-  },{
-    id: 3,
-    title: 'Achievements Update',
-    image: 'https://via.placeholder.com/150x150',
-    category: 'achievements',
-  },{
-    id: 4,
-    title: 'Events Update',
-    image: 'https://via.placeholder.com/150x150',
-    category: 'events',
-  }]);
+  const [articles, setArticles] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [filteredArticles, setFilteredArticles] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:8000/api/posts/post')
@@ -40,27 +18,28 @@ const NewsletterList = () => {
       })
       .then(articlesData => {
         setArticles(articlesData);
+        setFilteredArticles(articlesData); // Initially set filtered articles to all articles
       })
       .catch(error => {
         console.error('Error fetching articles:', error);
       });
   }, []);
 
+  useEffect(() => {
+    const filtered = articles.filter(article =>
+      article.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (selectedCategory === '' || article.category === selectedCategory)
+    );
+    setFilteredArticles(filtered);
+  }, [searchTerm, selectedCategory, articles]);
+
   const handleSearch = event => {
     setSearchTerm(event.target.value);
-    const filteredArticles = articles.filter(article =>
-      article.title.toLowerCase().includes(event.target.value.toLowerCase())
-    );
-    setArticles(filteredArticles);
   };
 
   const handleCategoryClick = category => {
     setSelectedCategory(category === selectedCategory ? '' : category);
   };
-
-  const filteredArticles = selectedCategory
-    ? articles.filter(article => article.category === selectedCategory)
-    : articles;
 
   return (
     <div className='News'>
@@ -91,9 +70,10 @@ const NewsletterList = () => {
         <div className='cards'>
           {filteredArticles.map(article => (
             <Newsletter
-              key={article.id}
+              key={article._id} // Use _id instead of id
+              _id={article._id} // Pass _id as the article ID
               title={article.title}
-              image={article.image}
+              image={article.cover} // Assuming cover is the image field
             />
           ))}
         </div>

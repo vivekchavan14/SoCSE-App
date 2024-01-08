@@ -114,18 +114,20 @@ export const updatePost = async (req, res) => {
   }
 };
 
+
+
 export const deletePost = async (req, res) => {
   try {
-    const postId = req.params.id;
+    const postId = req.params._id; // Extracting the post ID from the request parameters
     const deletedPost = await PostModel.findByIdAndDelete(postId);
 
-    if (!deletedPost) {
+    if (!deletedPost) { // If no post is found with the provided ID
       return res.status(404).json({ message: 'Post not found' });
     }
 
-    res.json({ message: 'Post deleted successfully' });
+    res.json({ message: 'Post deleted successfully' }); // Success response if deletion is successful
   } catch (error) {
     console.error('Error deleting post:', error);
-    res.status(500).json({ message: 'Error deleting post' });
+    res.status(500).json({ message: 'Error deleting post' }); // Error response if deletion encounters an error
   }
 };

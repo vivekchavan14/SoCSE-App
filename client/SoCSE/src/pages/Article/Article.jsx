@@ -1,14 +1,18 @@
+// Article.jsx
 import React, { useState, useEffect } from 'react';
-import './Article.css'; // Update the path to your CSS file
+import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom'; // Import useParams
+import './Article.css';
 
-const Article = ({ match }) => {
+const Article = () => {
+  const { id } = useParams(); // Get the 'id' parameter from the URL
+
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const articleId = match.params.id;
-        const response = await fetch(`http://localhost:8000/api/posts/post/${articleId}`);
+        const response = await fetch(`http://localhost:8000/api/posts/post/${id}`);
         if (!response.ok) {
           throw new Error('Network response was not ok.');
         }
@@ -21,7 +25,7 @@ const Article = ({ match }) => {
     };
 
     fetchArticle();
-  }, [match.params.id]);
+  }, [id]); // Use 'id' in the dependency array
 
   if (!article) {
     return <div>Loading...</div>;
