@@ -37,12 +37,12 @@ const Newsletter = ({ _id, title, image, onDelete }) => {
           <Link to={`/article/${_id}`} className="newsletter-button">
             View article
           </Link>
-          <button
+         {/*  <button
             className={`newsletter-button ${!accessToken ? 'hidden' : ''}`}
-            onClick={() => handleDelete(_id)} // Pass _id to handleDelete
+            onClick={handleDelete} // Remove passing _id to handleDelete
           >
             Delete post
-          </button>
+  </button> */}
         </div>
       </div>
     </div>
