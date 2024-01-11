@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './Newsletter.css';
 
-const Newsletter = ({ _id, title, image, onDelete }) => {
+const Newsletter = ({ _id, title, cover = '', onDelete }) => {
   const accessToken = localStorage.getItem('access_token');
 
   const handleDelete = async () => {
@@ -28,18 +28,22 @@ const Newsletter = ({ _id, title, image, onDelete }) => {
     }
   };
 
+  // Assuming cover is a relative path, ensure it correctly points to the /uploads directory
+  const imageUrl = `http://localhost:8000${cover}`;
+
   return (
     <div className="newsletter-container">
-      <img src={image} alt={title} className="newsletter-image" />
+      {/* Use the dynamic imageUrl variable */}
+      <img src={imageUrl} alt={title} className="newsletter-image" />
       <div className="newsletter-content">
         <h3 className="newsletter-title">{title}</h3>
         <div className="newsletter-buttons">
           <Link to={`/article/${_id}`} className="newsletter-button">
             View article
           </Link>
-         {/*  <button
+         {/*} <button
             className={`newsletter-button ${!accessToken ? 'hidden' : ''}`}
-            onClick={handleDelete} // Remove passing _id to handleDelete
+            onClick={handleDelete}
           >
             Delete post
   </button> */}
@@ -52,7 +56,7 @@ const Newsletter = ({ _id, title, image, onDelete }) => {
 Newsletter.propTypes = {
   _id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
+  cover: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
 };
 

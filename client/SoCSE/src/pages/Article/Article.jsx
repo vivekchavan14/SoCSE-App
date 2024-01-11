@@ -28,7 +28,7 @@ const Article = () => {
   }, [id]); // Use 'id' in the dependency array
 
   if (!article) {
-    return <div>Loading...</div>;
+    return <div className='loading'>Loading...</div>;
   }
 
   return (
@@ -37,7 +37,6 @@ const Article = () => {
       <img src={article.cover} alt={article.title} className="article-cover" />
       <p className="article-summary">{article.summary}</p>
       <div className="article-content">{article.content}</div>
-      {/* Add any other article details here */}
     </div>
   );
 };

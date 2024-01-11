@@ -28,7 +28,7 @@ function App() {
               <Route path="/article/:id" element={<Article />} />
             </Routes>
           </main>
-       
+    
         </UserContextProvider>
       </BrowserRouter>
     </div>

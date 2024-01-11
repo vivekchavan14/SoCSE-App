@@ -30,7 +30,15 @@ export const addPost = async (req, res) => {
       }
 
       const { title, summary, content } = req.body;
-      const { filename: cover } = req.file;
+     // const { filename: cover } = req.file;
+
+      const cover =  req.files.map((file) => {
+      return {
+        data: file.buffer,
+        contentType: file.mimetype,
+      };
+    });
+
 
       const token = req.headers.authorization?.split(' ')[1]; // Assuming the token is sent as "Bearer your_token"
       const secret = process.env.JWT_SECRET || "fallback_secret_if_not_set_in_env"; // Replace with your actual secret or use process.env
@@ -69,11 +77,25 @@ export const addPost = async (req, res) => {
 export const getPosts = async (req, res) => {
   try {
     const posts = await PostModel.find().populate('author', ['username']);
-    res.json(posts);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
+
+    const postsWithImages = posts.map(post => {
+      return {
+        _id: post._id,
+        title: post.title,
+        summary: post.summary,
+        content: post.content,
+        cover: post.cover ? `/uploads/${post.cover}` : null,
+        author: post.author
+      };
+    });
+
+    res.status(200).json(postsWithImages);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
 
 
 export const getPostById = async (req, res) => {
@@ -113,9 +135,6 @@ export const updatePost = async (req, res) => {
     res.status(500).json({ message: 'Error updating post' });
   }
 };
-
-
-
 
 
 export const deletePost = async (req, res) => {

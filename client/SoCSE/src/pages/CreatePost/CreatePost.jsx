@@ -48,8 +48,14 @@ function CreatePost() {
     event.preventDefault();
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('summary', summary);
-    formData.append('content', content);
+    
+    // Remove HTML tags from summary and content
+    const sanitizedSummary = summary.replace(/<[^>]+>/g, '');
+    const sanitizedContent = content.replace(/<[^>]+>/g, '');
+    
+    formData.append('summary', sanitizedSummary); // Use sanitized summary
+    formData.append('content', sanitizedContent); // Use sanitized content
+
     if (files) {
       formData.append('file', files[0]);
     }
