@@ -1,3 +1,4 @@
+// createPost.jsx
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
@@ -10,6 +11,7 @@ function CreatePost() {
   const [content, setContent] = useState('');
   const [files, setFiles] = useState(null);
   const [redirect, setRedirect] = useState(false);
+  const [error, setError] = useState(null);
 
   const modules = {
     toolbar: [
@@ -29,9 +31,9 @@ function CreatePost() {
   ];
 
   const getToken = () => {
-    return localStorage.getItem('access_token'); // Retrieve the token from localStorage
+    return localStorage.getItem('access_token');
   };
-  
+
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
   };
@@ -46,51 +48,43 @@ function CreatePost() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
-    formData.append('title', title);
-    
-    // Remove HTML tags from summary and content
-    const sanitizedSummary = summary.replace(/<[^>]+>/g, '');
-    const sanitizedContent = content.replace(/<[^>]+>/g, '');
-    
-    formData.append('summary', sanitizedSummary); // Use sanitized summary
-    formData.append('content', sanitizedContent); // Use sanitized content
-
-    if (files) {
-      formData.append('file', files[0]);
-    }
-
-    const token = getToken(); // Get the token from localStorage
 
     try {
-      const response = await fetch('http://localhost:8000/api/posts/create', {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('summary', summary);
+      formData.append('content', content);
+
+      if (files) {
+        formData.append('file', files[0]);
+      }
+
+      const token = getToken();
+
+      const response = await fetch('http://localhost:8000/api/posts/add', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
         },
         body: formData,
       });
-  
+
       if (response.ok) {
         console.log('Post created successfully:', response);
         setRedirect(true);
       } else if (response.status === 401) {
-        // Handle unauthorized error (e.g., expired token)
         throw new Error('Unauthorized');
       } else if (response.status === 400) {
-        // Handle specific client-side errors
         throw new Error('Bad request');
       } else {
-        // Handle other server-side errors
         throw new Error('Failed to create post');
       }
-  
+
       const data = await response.json();
       console.log('Response data:', data);
     } catch (error) {
       console.error('Error creating post:', error.message);
-      alert('Error creating post:', error.message);
-      // You can set an error state here to display a message to the user
+      setError(`Error creating post: ${error.message}`);
     }
   };
 
@@ -101,6 +95,7 @@ function CreatePost() {
   return (
     <div className='create-post-container'>
       <h1>Create New Post</h1>
+      {error && <div className='error-message'>{error}</div>}
       <form className='post-form' onSubmit={handleSubmit}>
         <input
           type='text'
@@ -109,13 +104,7 @@ function CreatePost() {
           onChange={handleTitleChange}
           className='post-input'
         />
-        <input
-          type='text'
-          placeholder='Add Summary'
-          value={summary}
-          onChange={handleSummaryChange}
-          className='post-input'
-        />
+      
         <input
           type='file'
           onChange={event => setFiles(event.target.files)}

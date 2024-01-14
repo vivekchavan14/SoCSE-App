@@ -1,76 +1,51 @@
-import PostModel from "../models/postModel.js";
-import multer from 'multer';
-import path from 'path';
+import PostModel from '../models/postModel.js';
 import jwt from 'jsonwebtoken';
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const fileName = `${file.fieldname}-${Date.now()}${ext}`;
-    cb(null, fileName);
-  }
-});
-
-const upload = multer({ storage }).single('file');
+import expressFileUpload from 'express-fileupload';
 
 export const addPost = async (req, res) => {
   try {
-    upload(req, res, async (err) => {
-      if (err instanceof multer.MulterError) {
-        return res.status(400).json({ error: 'Multer Error' });
-      } else if (err) {
-        return res.status(500).json({ error: err.message });
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const { title, summary, content } = req.body;
+    const coverFile = req.files.cover;
+
+    if (!coverFile) {
+      return res.status(400).json({ error: 'Cover file is required' });
+    }
+
+    // Verify token and handle authorization
+    const token = req.headers.authorization?.split(' ')[1];
+    const secret = process.env.JWT_SECRET || 'fallback_secret_if_not_set_in_env';
+
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized - Token not provided' });
+    }
+
+    jwt.verify(token, secret, {}, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({ message: 'Unauthorized - Invalid token' });
       }
 
-      if (!req.file) {
-        return res.status(400).json({ error: 'No file uploaded' });
+      try {
+        const postDoc = await PostModel.create({
+          title,
+          summary,
+          content,
+          cover: { data: coverFile.data, contentType: coverFile.mimetype },
+          author: decoded.id,
+        });
+
+        return res.status(201).json(postDoc);
+      } catch (error) {
+        console.error('Error creating post:', error);
+        return res.status(500).json({ message: 'Error creating post' });
       }
-
-      const { title, summary, content } = req.body;
-     // const { filename: cover } = req.file;
-
-      const cover =  req.files.map((file) => {
-      return {
-        data: file.buffer,
-        contentType: file.mimetype,
-      };
-    });
-
-
-      const token = req.headers.authorization?.split(' ')[1]; // Assuming the token is sent as "Bearer your_token"
-      const secret = process.env.JWT_SECRET || "fallback_secret_if_not_set_in_env"; // Replace with your actual secret or use process.env
-
-      if (!token) {
-        return res.status(401).json({ message: 'Unauthorized - Token not provided' });
-      }
-
-      jwt.verify(token, secret, {}, async (err, decoded) => {
-        if (err) {
-          return res.status(401).json({ message: 'Unauthorized - Invalid token' });
-        }
-
-        try {
-          const postDoc = await PostModel.create({
-            title,
-            summary,
-            content,
-            cover,
-            author: decoded.id
-          });
-
-          res.json(postDoc);
-        } catch (error) {
-          console.error('Error creating post:', error);
-          res.status(500).json({ message: 'Error creating post' });
-        }
-      });
     });
   } catch (error) {
     console.error('Error handling request:', error);
-    res.status(500).json({ message: 'Error handling request' });
+    return res.status(500).json({ message: 'Error handling request' });
   }
 };
 
@@ -84,8 +59,8 @@ export const getPosts = async (req, res) => {
         title: post.title,
         summary: post.summary,
         content: post.content,
-        cover: post.cover ? `/uploads/${post.cover}` : null,
-        author: post.author
+        cover: post.cover ? `data:${post.cover.contentType};base64,${post.cover.data.toString('base64')}` : null,
+        author: post.author,
       };
     });
 
@@ -95,8 +70,6 @@ export const getPosts = async (req, res) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
-
-
 
 export const getPostById = async (req, res) => {
   try {
@@ -114,16 +87,11 @@ export const getPostById = async (req, res) => {
   }
 };
 
-
 export const updatePost = async (req, res) => {
   try {
     const postId = req.params.id;
     const { title, summary, content } = req.body;
-    const updatedPost = await PostModel.findByIdAndUpdate(
-      postId,
-      { title, summary, content },
-      { new: true }
-    );
+    const updatedPost = await PostModel.findByIdAndUpdate(postId, { title, summary, content }, { new: true });
 
     if (!updatedPost) {
       return res.status(404).json({ message: 'Post not found' });
@@ -136,10 +104,9 @@ export const updatePost = async (req, res) => {
   }
 };
 
-
 export const deletePost = async (req, res) => {
   try {
-    const postId = req.params.postId; // Extracting the post ID from the request parameters using req.params.postId
+    const postId = req.params.postId;
     const deletedPost = await PostModel.findByIdAndDelete(postId);
 
     if (!deletedPost) {

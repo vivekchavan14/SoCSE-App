@@ -1,12 +1,11 @@
 // Article.jsx
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom'; // Import useParams
+import { useParams } from 'react-router-dom';
 import './Article.css';
 
 const Article = () => {
-  const { id } = useParams(); // Get the 'id' parameter from the URL
-
+  const { id } = useParams();
   const [article, setArticle] = useState(null);
 
   useEffect(() => {
@@ -25,20 +24,35 @@ const Article = () => {
     };
 
     fetchArticle();
-  }, [id]); // Use 'id' in the dependency array
+  }, [id]);
 
   if (!article) {
     return <div className='loading'>Loading...</div>;
   }
 
+  const imageUrl = article.cover && article.cover.data
+  ? `data:${article.cover.contentType};base64,${Buffer.from(article.cover.data).toString('base64')}`
+  : '';
+
+
   return (
     <div className="article-container">
       <h1 className="article-title">{article.title}</h1>
-      <img src={article.cover} alt={article.title} className="article-cover" />
+      <img src={imageUrl} alt={article.title} className="article-cover" />
       <p className="article-summary">{article.summary}</p>
       <div className="article-content">{article.content}</div>
     </div>
   );
+};
+
+Article.propTypes = {
+  title: PropTypes.string,
+  cover: PropTypes.shape({
+    data: PropTypes.string,
+    contentType: PropTypes.string,
+  }),
+  summary: PropTypes.string,
+  content: PropTypes.string,
 };
 
 export default Article;

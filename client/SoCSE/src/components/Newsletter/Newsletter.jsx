@@ -28,25 +28,23 @@ const Newsletter = ({ _id, title, cover = '', onDelete }) => {
     }
   };
 
-  // Assuming cover is a relative path, ensure it correctly points to the /uploads directory
-  const imageUrl = `http://localhost:8000${cover}`;
+  // Ensure cover is a non-empty string
+  const imageUrl = cover ? `data:${cover.contentType};base64,${cover.data.toString('base64')}` : '';
 
   return (
     <div className="newsletter-container">
-      {/* Use the dynamic imageUrl variable */}
-      <img src={imageUrl} alt={title} className="newsletter-image" />
+      {cover && <img src={imageUrl} alt={title} className="newsletter-image" />}
       <div className="newsletter-content">
         <h3 className="newsletter-title">{title}</h3>
         <div className="newsletter-buttons">
           <Link to={`/article/${_id}`} className="newsletter-button">
             View article
           </Link>
-         {/*} <button
-            className={`newsletter-button ${!accessToken ? 'hidden' : ''}`}
-            onClick={handleDelete}
-          >
-            Delete post
-  </button> */}
+          {/* {accessToken && (
+            <button className="newsletter-button" onClick={handleDelete}>
+              Delete post
+            </button>
+          )} */}
         </div>
       </div>
     </div>
@@ -56,7 +54,7 @@ const Newsletter = ({ _id, title, cover = '', onDelete }) => {
 Newsletter.propTypes = {
   _id: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  cover: PropTypes.string,
+  cover: PropTypes.object, // Adjusted PropTypes to match the new cover structure
   onDelete: PropTypes.func.isRequired,
 };
 

@@ -72,41 +72,37 @@ const NewsletterList = () => {
 
   return (
     <div className='News'>
-      <div className='NewsL'>
-        <div>
-          <input
-            type="text"
-            placeholder="Search News Articles..."
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </div>
-        <div className='categories'>
-          <div className='category-buttons-scroll'>
-            <div className='category-buttons'>
-              {['All', 'literature', 'sport', 'co-curricular', 'events', 'achievements', 'technical', 'other'].map((category, index) => (
-                <button
-                  key={index}
-                  className={selectedCategory === category ? 'active' : ''}
-                  onClick={() => handleCategoryClick(category)}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
+      <input
+        type='text'
+        placeholder='Search News Articles...'
+        value={searchTerm}
+        onChange={handleSearch}
+      />
+      <div className='categories'>
+        <div className='category-buttons-scroll'>
+          <div className='category-buttons'>
+            {['All', 'literature', 'sport', 'co-curricular', 'events', 'achievements', 'technical', 'other'].map((category, index) => (
+              <button
+                key={index}
+                className={selectedCategory === category ? 'active' : ''}
+                onClick={() => handleCategoryClick(category)}
+              >
+                {category}
+              </button>
+            ))}
           </div>
         </div>
-        <div className='cards'>
-          {filteredArticles.map(article => (
-            <Newsletter
-              key={article._id}
-              _id={article._id}
-              title={article.title}
-              image={article.cover}
-              onDelete={() => handleDelete(article._id)}
-            />
-          ))}
-        </div>
+      </div>
+      <div className='cards'>
+        {filteredArticles.map(article => (
+          <Newsletter
+            key={article._id}
+            _id={article._id}
+            title={article.title}
+            image={article.cover}
+            onDelete={() => handleDelete(article._id)}
+          />
+        ))}
       </div>
     </div>
   );

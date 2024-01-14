@@ -5,6 +5,7 @@ import authRouter from './routes/authRoutes.js';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import postRoutes from './routes/postRoutes.js'; 
+import expressFileUpload from 'express-fileupload'; 
 
 const app = express();
 const port = 8000;
@@ -35,6 +36,7 @@ app.use(cors({
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(expressFileUpload());
 app.use('/api/auth', authRouter);
 app.use('/api/posts', postRoutes); 
 

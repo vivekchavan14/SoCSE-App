@@ -4,20 +4,30 @@ const { Schema, model } = mongoose;
 
 const PostSchema = new Schema(
   {
-    title: String,
+    title: {
+      type: String,
+      required: true,
+    },
     summary: String,
     content: String,
-    cover: [
-      {
-        data: Buffer,
-        contentType: String,
+    cover: {
+      data: {
+        type: Buffer,
+        required: true,
       },
-    ],
-  
-    author: { type: Schema.Types.ObjectId, ref: 'User' }
+      contentType: {
+        type: String,
+        required: true,
+      },
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 

@@ -1,5 +1,6 @@
 /* NewsletterList.css */
 
+/* Base styles */
 .News {
   display: flex;
   flex-direction: column;
@@ -7,16 +8,8 @@
   padding: 1rem;
 }
 
-.NewsL {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
 input[type='text'] {
-  width: 60vw; /* Adjust the width as needed */
+  width: 60vw;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -25,28 +18,16 @@ input[type='text'] {
 
 .categories {
   display: flex;
+  flex-direction: row;
   gap: 10px;
   margin-bottom: 1rem;
   padding: 0 1rem;
-  /* Change scrollbar color as needed */
-}
-
-.category-buttons {
-  display: flex;
-  gap: 5px;
-  white-space: nowrap; /* Prevent button text from wrapping */
-}
-
-.category-buttons-scroll{
   overflow-x: auto; /* Enable horizontal scrollbar */
   white-space: nowrap; /* Prevent button text from wrapping */
-  width: 100%; /* Occupy full width */
-  /* Added styles for scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: #ccc transparent; 
 }
+
 .categories button {
-  padding: 8px 16px; /* Fixed padding for consistent button size */
+  padding: 8px 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -54,8 +35,8 @@ input[type='text'] {
   background-color: #f0f0f0;
   font-size: 14px;
   text-transform: uppercase;
-  display: flex;
-  justify-content: center; /* Convert text to uppercase */
+
+  justify-content: center;
 }
 
 .categories button.active {
@@ -67,22 +48,40 @@ input[type='text'] {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: space-between; /* Ensures even distribution */
-  width: 70%;
-  align-items: center;
+  justify-content: center; /* Center cards horizontally */
+  width: 100%; /* Occupy full width */
 }
 
 .newsletter-container {
-  width: calc(50% - 10px); /* Adjust width for two newsletters in a row */
+  width: calc(50% - 20px);
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
 }
 
-/* Additional styles for small screens */
-@media screen and (max-width: 768px) {
-  .categories {
-    overflow-x: scroll; /* Enable scrollbar for small screens */
-    scrollbar-width: auto; /* Revert scrollbar width to default for small screens */
+/* Typography and Animation */
+.News,
+.NewsL {
+  font-family: 'Roboto', sans-serif; /* Use a suitable font */
+}
+
+.categories button {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.categories button:hover {
+  background-color: #ddd;
+  transform: scale(1.05);
+}
+
+/* Display two cards in each row */
+@media screen and (max-width: 600px) {
+  .cards {
+    flex-direction: column;
+  }
+  .newsletter-container {
+    width: 100%;
   }
 }
